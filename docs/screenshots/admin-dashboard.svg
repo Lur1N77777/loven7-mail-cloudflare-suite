@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="980" viewBox="0 0 1600 980" role="img" aria-label="Loven7 Mail interface preview">
+  <defs>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="18" stdDeviation="24" flood-color="#9c8776" flood-opacity="0.14"/></filter>
+    <linearGradient id="rose" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#fff6f1"/><stop offset="1" stop-color="#ead4cc"/></linearGradient>
+    <linearGradient id="graphite" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#272321"/><stop offset="1" stop-color="#171514"/></linearGradient>
+  </defs>
+  <style>
+  .bg{fill:#f7f4ef}.card{fill:#fffaf4;stroke:#e8ddd0;stroke-width:1}.surface{fill:#ffffff;stroke:#ece4da;stroke-width:1}.muted{fill:#8c8178}.text{fill:#292522}.strong{fill:#171412}.soft{fill:#f1ebe3}.line{stroke:#e6ddd3;stroke-width:1}.accent{fill:#d8a7a0}.accent2{fill:#f0d9d4}.dark{fill:#3a3430}.pill{fill:#f4ede6;stroke:#e3d7cb;stroke-width:1}.good{fill:#e8ddd6}.danger{fill:#e9c8c1}.shadow{filter:url(#shadow)}
+  text{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Inter','SF Pro Display','PingFang SC','Microsoft YaHei',sans-serif}
+  .h1{font-size:34px;font-weight:650;letter-spacing:-.03em}.h2{font-size:22px;font-weight:600;letter-spacing:-.02em}.body{font-size:15px;font-weight:430}.small{font-size:12px;font-weight:500}.tiny{font-size:10px;font-weight:600}.brand{font-family:Georgia,'Times New Roman',serif;font-size:28px;font-weight:500;font-style:italic;letter-spacing:-.02em}
+</style>
+  
+<rect class="bg" width="1600" height="980" rx="0"/>
+<rect x="56" y="52" width="1488" height="876" rx="34" class="surface shadow"/>
+<rect x="56" y="52" width="268" height="876" rx="34" fill="#fbf6ef"/>
+<circle cx="104" cy="104" r="24" fill="url(#rose)" stroke="#e0c9c0"/>
+<text x="142" y="113" class="brand strong">Loven7 Mail</text>
+<rect x="88" y="168" width="200" height="48" rx="16" fill="#efe4da"/>
+<text x="122" y="198" class="body strong">仪表盘</text>
+<text x="122" y="260" class="body muted">地址管理</text>
+<text x="122" y="318" class="body muted">收件箱</text>
+<text x="122" y="376" class="body muted">用户管理</text>
+<text x="122" y="434" class="body muted">共享链接</text>
+<text x="122" y="492" class="body muted">系统设置</text>
+<rect x="90" y="792" width="196" height="76" rx="22" fill="#f1e7dc"/>
+<text x="112" y="824" class="small muted">自动刷新</text>
+<text x="112" y="850" class="body strong">已开启 · 10s</text>
+
+<text x="376" y="122" class="h1 strong">仪表盘</text>
+<text x="376" y="154" class="body muted">快速查看地址、邮件、用户和共享链接状态。</text>
+<rect x="1280" y="88" width="96" height="40" rx="14" class="pill"/><text x="1310" y="113" class="small strong">深色</text>
+<rect x="1392" y="88" width="96" height="40" rx="14" fill="#292522"/><text x="1417" y="113" class="small" fill="#fff8f1">刷新</text>
+
+<g class="shadow">
+<rect x="376" y="204" width="250" height="146" rx="26" class="card"/><text x="404" y="252" class="small muted">总地址</text><text x="404" y="302" class="h1 strong">1,248</text><rect x="528" y="240" width="60" height="60" rx="20" fill="#f0d9d4"/>
+<rect x="654" y="204" width="250" height="146" rx="26" class="card"/><text x="682" y="252" class="small muted">今日邮件</text><text x="682" y="302" class="h1 strong">8,392</text><rect x="806" y="240" width="60" height="60" rx="20" fill="#ede3d8"/>
+<rect x="932" y="204" width="250" height="146" rx="26" class="card"/><text x="960" y="252" class="small muted">活跃用户</text><text x="960" y="302" class="h1 strong">326</text><rect x="1084" y="240" width="60" height="60" rx="20" fill="#e9d7ce"/>
+<rect x="1210" y="204" width="250" height="146" rx="26" class="card"/><text x="1238" y="252" class="small muted">有效分享</text><text x="1238" y="302" class="h1 strong">58</text><rect x="1362" y="240" width="60" height="60" rx="20" fill="#f2e5df"/>
+</g>
+
+<rect x="376" y="390" width="682" height="430" rx="28" class="card"/>
+<text x="410" y="440" class="h2 strong">最近邮件</text>
+<text x="410" y="470" class="body muted">验证码、附件和品牌头像一眼可见</text>
+<g>
+  <circle cx="438" cy="538" r="23" fill="#f1ddd7"/><text x="430" y="546" class="body strong">O</text><text x="482" y="526" class="body strong">OpenAI</text><text x="482" y="553" class="small muted">Your verification code is 123456</text><rect x="884" y="516" width="84" height="32" rx="16" class="pill"/><text x="905" y="537" class="small strong">123456</text>
+  <line x1="410" x2="1024" y1="590" y2="590" class="line"/>
+  <circle cx="438" cy="642" r="23" fill="#ece0d6"/><text x="431" y="650" class="body strong">A</text><text x="482" y="630" class="body strong">Apple</text><text x="482" y="657" class="small muted">Receipt from your account</text><rect x="884" y="620" width="84" height="32" rx="16" class="pill"/><text x="910" y="641" class="small strong">附件</text>
+  <line x1="410" x2="1024" y1="694" y2="694" class="line"/>
+  <circle cx="438" cy="746" r="23" fill="#ead2cb"/><text x="431" y="754" class="body strong">P</text><text x="482" y="734" class="body strong">PayPal</text><text x="482" y="761" class="small muted">Security notification for demo mailbox</text><rect x="884" y="724" width="84" height="32" rx="16" class="pill"/><text x="906" y="745" class="small strong">已读</text>
+</g>
+
+<rect x="1090" y="390" width="370" height="430" rx="28" class="card"/>
+<text x="1124" y="440" class="h2 strong">共享链接</text>
+<text x="1124" y="470" class="body muted">撤回、恢复、批量管理</text>
+<rect x="1124" y="520" width="284" height="58" rx="19" fill="#f6efe8"/><text x="1148" y="546" class="small muted">多邮箱分享</text><text x="1148" y="568" class="body strong">24 个地址 · 有效</text>
+<rect x="1124" y="600" width="284" height="58" rx="19" fill="#f6efe8"/><text x="1148" y="626" class="small muted">单邮箱分享</text><text x="1148" y="648" class="body strong">仅新增邮件 · 有效</text>
+<rect x="1124" y="680" width="284" height="58" rx="19" fill="#f6efe8"/><text x="1148" y="706" class="small muted">旧链接</text><text x="1148" y="728" class="body strong">已撤回 · 可恢复</text>
+
+</svg>

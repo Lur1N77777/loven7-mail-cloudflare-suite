@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="980" viewBox="0 0 1600 980" role="img" aria-label="Loven7 Mail interface preview">
+  <defs>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="18" stdDeviation="24" flood-color="#9c8776" flood-opacity="0.14"/></filter>
+    <linearGradient id="rose" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#fff6f1"/><stop offset="1" stop-color="#ead4cc"/></linearGradient>
+    <linearGradient id="graphite" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#272321"/><stop offset="1" stop-color="#171514"/></linearGradient>
+  </defs>
+  <style>
+  .bg{fill:#f7f4ef}.card{fill:#fffaf4;stroke:#e8ddd0;stroke-width:1}.surface{fill:#ffffff;stroke:#ece4da;stroke-width:1}.muted{fill:#8c8178}.text{fill:#292522}.strong{fill:#171412}.soft{fill:#f1ebe3}.line{stroke:#e6ddd3;stroke-width:1}.accent{fill:#d8a7a0}.accent2{fill:#f0d9d4}.dark{fill:#3a3430}.pill{fill:#f4ede6;stroke:#e3d7cb;stroke-width:1}.good{fill:#e8ddd6}.danger{fill:#e9c8c1}.shadow{filter:url(#shadow)}
+  text{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Inter','SF Pro Display','PingFang SC','Microsoft YaHei',sans-serif}
+  .h1{font-size:34px;font-weight:650;letter-spacing:-.03em}.h2{font-size:22px;font-weight:600;letter-spacing:-.02em}.body{font-size:15px;font-weight:430}.small{font-size:12px;font-weight:500}.tiny{font-size:10px;font-weight:600}.brand{font-family:Georgia,'Times New Roman',serif;font-size:28px;font-weight:500;font-style:italic;letter-spacing:-.02em}
+</style>
+  
+<rect class="bg" width="1600" height="980"/>
+<rect x="52" y="50" width="1496" height="880" rx="34" class="surface shadow"/>
+<rect x="84" y="86" width="1432" height="78" rx="24" fill="#fbf6ef"/>
+<text x="118" y="136" class="h2 strong">收件箱</text>
+<rect x="222" y="107" width="86" height="36" rx="18" class="pill"/><text x="246" y="130" class="small strong">890 封</text>
+<rect x="322" y="107" width="86" height="36" rx="18" class="pill"/><text x="342" y="130" class="small strong">20 未读</text>
+<rect x="1034" y="103" width="288" height="44" rx="16" fill="#fff" stroke="#e6ddd3"/><text x="1062" y="131" class="small muted">筛选邮箱地址</text>
+<rect x="1338" y="103" width="48" height="44" rx="16" fill="#292522"/><text x="1355" y="131" class="small" fill="#fff8f1">↻</text>
+<rect x="1402" y="103" width="76" height="44" rx="16" class="pill"/><text x="1426" y="131" class="small strong">全部</text>
+
+<rect x="84" y="198" width="560" height="682" rx="28" class="card"/>
+<rect x="116" y="230" width="496" height="94" rx="22" fill="#f3e8df"/>
+<circle cx="154" cy="277" r="23" fill="#f7d7d1"/><text x="146" y="285" class="body strong">O</text><text x="194" y="263" class="body strong">OpenAI</text><text x="194" y="291" class="small muted">确认コード：１２３４５６</text><text x="536" y="263" class="tiny muted">刚刚</text>
+<rect x="116" y="342" width="496" height="94" rx="22" fill="#fffaf4" stroke="#e8ddd0"/>
+<circle cx="154" cy="389" r="23" fill="#ece0d6"/><text x="148" y="397" class="body strong">G</text><text x="194" y="375" class="body strong">GitHub</text><text x="194" y="403" class="small muted">Sign-in attempt from a new device</text><text x="536" y="375" class="tiny muted">2 分钟</text>
+<rect x="116" y="454" width="496" height="94" rx="22" fill="#fffaf4" stroke="#e8ddd0"/>
+<circle cx="154" cy="501" r="23" fill="#ead2cb"/><text x="148" y="509" class="body strong">P</text><text x="194" y="487" class="body strong">PayPal</text><text x="194" y="515" class="small muted">Security code: 739-201</text><text x="536" y="487" class="tiny muted">8 分钟</text>
+<rect x="116" y="566" width="496" height="94" rx="22" fill="#fffaf4" stroke="#e8ddd0"/>
+<circle cx="154" cy="613" r="23" fill="#f0ddd5"/><text x="148" y="621" class="body strong">A</text><text x="194" y="599" class="body strong">Apple</text><text x="194" y="627" class="small muted">Your receipt from Demo Store</text><text x="536" y="599" class="tiny muted">12 分钟</text>
+<rect x="116" y="678" width="496" height="94" rx="22" fill="#fffaf4" stroke="#e8ddd0"/>
+<circle cx="154" cy="725" r="23" fill="#ebe0d9"/><text x="148" y="733" class="body strong">M</text><text x="194" y="711" class="body strong">Microsoft</text><text x="194" y="739" class="small muted">One-time password ABC123</text><text x="536" y="711" class="tiny muted">28 分钟</text>
+
+<rect x="684" y="198" width="792" height="682" rx="28" class="card"/>
+<text x="730" y="258" class="h1 strong">确认コード：１２３４５６</text>
+<text x="730" y="294" class="body muted">OpenAI &lt;no-reply@example.com&gt; · 收件人 demo@example.com</text>
+<rect x="730" y="330" width="110" height="38" rx="19" fill="#292522"/><text x="758" y="354" class="small" fill="#fff8f1">复制验证码</text>
+<rect x="854" y="330" width="96" height="38" rx="19" class="pill"/><text x="880" y="354" class="small strong">123456</text>
+<line x1="730" x2="1428" y1="402" y2="402" class="line"/>
+<rect x="730" y="448" width="698" height="332" rx="24" fill="#fff" stroke="#eee4da"/>
+<text x="780" y="516" class="h2 strong">Your verification code</text>
+<text x="780" y="562" class="body muted">Use this code to finish signing in to your demo account.</text>
+<rect x="780" y="604" width="238" height="74" rx="22" fill="#f4e8df"/><text x="836" y="652" class="h2 strong">123456</text>
+<text x="780" y="724" class="body muted">This preview uses mock data and does not contain real mailbox content.</text>
+
+</svg>

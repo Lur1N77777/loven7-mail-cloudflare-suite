@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="980" viewBox="0 0 1600 980" role="img" aria-label="Loven7 Mail interface preview">
+  <defs>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="18" stdDeviation="24" flood-color="#9c8776" flood-opacity="0.14"/></filter>
+    <linearGradient id="rose" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#fff6f1"/><stop offset="1" stop-color="#ead4cc"/></linearGradient>
+    <linearGradient id="graphite" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#272321"/><stop offset="1" stop-color="#171514"/></linearGradient>
+  </defs>
+  <style>
+  .bg{fill:#f7f4ef}.card{fill:#fffaf4;stroke:#e8ddd0;stroke-width:1}.surface{fill:#ffffff;stroke:#ece4da;stroke-width:1}.muted{fill:#8c8178}.text{fill:#292522}.strong{fill:#171412}.soft{fill:#f1ebe3}.line{stroke:#e6ddd3;stroke-width:1}.accent{fill:#d8a7a0}.accent2{fill:#f0d9d4}.dark{fill:#3a3430}.pill{fill:#f4ede6;stroke:#e3d7cb;stroke-width:1}.good{fill:#e8ddd6}.danger{fill:#e9c8c1}.shadow{filter:url(#shadow)}
+  text{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Inter','SF Pro Display','PingFang SC','Microsoft YaHei',sans-serif}
+  .h1{font-size:34px;font-weight:650;letter-spacing:-.03em}.h2{font-size:22px;font-weight:600;letter-spacing:-.02em}.body{font-size:15px;font-weight:430}.small{font-size:12px;font-weight:500}.tiny{font-size:10px;font-weight:600}.brand{font-family:Georgia,'Times New Roman',serif;font-size:28px;font-weight:500;font-style:italic;letter-spacing:-.02em}
+</style>
+  
+<rect class="bg" width="1600" height="980"/>
+<rect x="72" y="70" width="1456" height="840" rx="38" class="surface shadow"/>
+<rect x="110" y="108" width="1378" height="86" rx="28" fill="#fbf6ef"/>
+<circle cx="154" cy="151" r="24" fill="url(#rose)" stroke="#e0c9c0"/>
+<text x="196" y="160" class="brand strong">Loven7 Mail</text>
+<rect x="1226" y="128" width="44" height="44" rx="22" fill="none" stroke="#d8a7a0" stroke-width="6" stroke-dasharray="105 32" stroke-linecap="round"/>
+<text x="1294" y="155" class="small muted">自动刷新 10s</text>
+<rect x="1398" y="128" width="54" height="44" rx="16" fill="#292522"/><text x="1417" y="156" class="small" fill="#fff8f1">↻</text>
+
+<text x="132" y="274" class="h1 strong">共享收件箱</text>
+<text x="132" y="312" class="body muted">仅显示分享后新增邮件，访客删除只隐藏当前视图。</text>
+<rect x="132" y="350" width="388" height="58" rx="22" class="pill"/><text x="158" y="386" class="body strong">support@example.dev</text><text x="414" y="386" class="small muted">12 封</text>
+<rect x="540" y="350" width="348" height="58" rx="22" class="pill"/><text x="566" y="386" class="body strong">notify@example.dev</text><text x="778" y="386" class="small muted">6 封</text>
+
+<rect x="132" y="458" width="604" height="302" rx="30" class="card"/>
+<circle cx="186" cy="522" r="26" fill="#f0ddd5"/><text x="178" y="531" class="body strong">A</text><text x="232" y="510" class="h2 strong">Apple</text><text x="232" y="543" class="body muted">Your receipt is ready</text><text x="650" y="510" class="small muted">刚刚</text><line x1="174" y1="584" x2="694" y2="584" class="line"/>
+<circle cx="186" cy="646" r="26" fill="#ead2cb"/><text x="178" y="655" class="body strong">P</text><text x="232" y="634" class="h2 strong">PayPal</text><text x="232" y="667" class="body muted">Security code: 739201</text><rect x="602" y="626" width="92" height="34" rx="17" class="pill"/><text x="624" y="648" class="small strong">739201</text>
+
+<rect x="784" y="458" width="572" height="302" rx="30" class="card"/>
+<text x="832" y="528" class="h2 strong">干净、轻量的用户端</text>
+<text x="832" y="574" class="body muted">适合单邮箱、多邮箱和聚合分享链接。</text>
+<text x="832" y="620" class="body muted">邮件正文安全渲染，图片通过代理加载。</text>
+<text x="832" y="666" class="body muted">品牌头像、验证码复制、自动刷新都已内置。</text>
+<rect x="832" y="704" width="156" height="40" rx="20" fill="#292522"/><text x="870" y="729" class="small" fill="#fff8f1">打开邮件</text>
+
+</svg>
