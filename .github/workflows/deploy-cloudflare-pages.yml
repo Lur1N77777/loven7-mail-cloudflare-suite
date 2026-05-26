@@ -1,0 +1,94 @@
+name: Deploy to Cloudflare Pages
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+    inputs:
+      deploy_admin:
+        description: Deploy apps/admin
+        required: true
+        type: boolean
+        default: true
+      deploy_webmail:
+        description: Deploy apps/webmail
+        required: true
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+  deployments: write
+
+concurrency:
+  group: cloudflare-pages-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    name: Build and deploy Pages projects
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      ADMIN_PAGES_PROJECT_NAME: ${{ vars.ADMIN_PAGES_PROJECT_NAME }}
+      WEBMAIL_PAGES_PROJECT_NAME: ${{ vars.WEBMAIL_PAGES_PROJECT_NAME }}
+      DEPLOY_ADMIN: ${{ github.event_name == 'push' || inputs.deploy_admin }}
+      DEPLOY_WEBMAIL: ${{ github.event_name == 'push' || inputs.deploy_webmail }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: |
+            apps/admin/package-lock.json
+            apps/webmail/package-lock.json
+
+      - name: Install admin dependencies
+        if: env.DEPLOY_ADMIN == 'true'
+        working-directory: apps/admin
+        run: npm ci
+
+      - name: Build admin
+        if: env.DEPLOY_ADMIN == 'true'
+        working-directory: apps/admin
+        env:
+          VITE_API_BASE: ""
+        run: npm run build
+
+      - name: Deploy admin to Cloudflare Pages
+        if: env.DEPLOY_ADMIN == 'true' && env.CLOUDFLARE_API_TOKEN != '' && env.CLOUDFLARE_ACCOUNT_ID != '' && env.ADMIN_PAGES_PROJECT_NAME != ''
+        working-directory: apps/admin
+        run: npx --yes wrangler@latest pages deploy dist --project-name "$ADMIN_PAGES_PROJECT_NAME" --branch "$GITHUB_REF_NAME"
+
+      - name: Skip admin deploy when Cloudflare config is missing
+        if: env.DEPLOY_ADMIN == 'true' && (env.CLOUDFLARE_API_TOKEN == '' || env.CLOUDFLARE_ACCOUNT_ID == '' || env.ADMIN_PAGES_PROJECT_NAME == '')
+        run: echo "Admin build finished. Configure CLOUDFLARE_API_TOKEN, CLOUDFLARE_ACCOUNT_ID, and ADMIN_PAGES_PROJECT_NAME to enable automatic deploy."
+
+      - name: Install webmail dependencies
+        if: env.DEPLOY_WEBMAIL == 'true'
+        working-directory: apps/webmail
+        run: npm ci
+
+      - name: Build webmail
+        if: env.DEPLOY_WEBMAIL == 'true'
+        working-directory: apps/webmail
+        env:
+          VITE_API_BASE: ""
+        run: npm run build
+
+      - name: Deploy webmail to Cloudflare Pages
+        if: env.DEPLOY_WEBMAIL == 'true' && env.CLOUDFLARE_API_TOKEN != '' && env.CLOUDFLARE_ACCOUNT_ID != '' && env.WEBMAIL_PAGES_PROJECT_NAME != ''
+        working-directory: apps/webmail
+        run: npx --yes wrangler@latest pages deploy dist --project-name "$WEBMAIL_PAGES_PROJECT_NAME" --branch "$GITHUB_REF_NAME"
+
+      - name: Skip webmail deploy when Cloudflare config is missing
+        if: env.DEPLOY_WEBMAIL == 'true' && (env.CLOUDFLARE_API_TOKEN == '' || env.CLOUDFLARE_ACCOUNT_ID == '' || env.WEBMAIL_PAGES_PROJECT_NAME == '')
+        run: echo "Webmail build finished. Configure CLOUDFLARE_API_TOKEN, CLOUDFLARE_ACCOUNT_ID, and WEBMAIL_PAGES_PROJECT_NAME to enable automatic deploy."
