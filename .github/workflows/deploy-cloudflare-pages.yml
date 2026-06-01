@@ -61,6 +61,7 @@ jobs:
         working-directory: apps/admin
         env:
           VITE_API_BASE: ""
+          VITE_FRONTEND_LOGIN_BASE: ${{ vars.VITE_FRONTEND_LOGIN_BASE }}
         run: npm run build
 
       - name: Deploy admin to Cloudflare Pages
