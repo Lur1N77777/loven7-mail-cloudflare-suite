@@ -88,7 +88,7 @@ jobs:
       - name: Deploy webmail to Cloudflare Pages
         if: env.DEPLOY_WEBMAIL == 'true' && env.CLOUDFLARE_API_TOKEN != '' && env.CLOUDFLARE_ACCOUNT_ID != '' && env.WEBMAIL_PAGES_PROJECT_NAME != ''
         working-directory: apps/webmail
-        run: npx --yes wrangler@latest pages deploy dist --project-name "$WEBMAIL_PAGES_PROJECT_NAME" --branch "$GITHUB_REF_NAME"
+        run: node scripts/deploy-pages.mjs
 
       - name: Skip webmail deploy when Cloudflare config is missing
         if: env.DEPLOY_WEBMAIL == 'true' && (env.CLOUDFLARE_API_TOKEN == '' || env.CLOUDFLARE_ACCOUNT_ID == '' || env.WEBMAIL_PAGES_PROJECT_NAME == '')
