@@ -229,6 +229,9 @@ export function Sidebar({ activeMenu, setActiveMenu, stats, theme, setTheme, loc
   };
 
   const resetAvatar = () => {
+    setCustomAvatar('');
+    setAvatarUrlDraft('');
+    persistCustomAvatar('');
     chooseAvatar(DEFAULT_ADMIN_AVATAR);
   };
 
