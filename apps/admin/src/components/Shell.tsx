@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { AlertCircle, BarChart2, Check, ChevronDown, Database, ExternalLink, Inbox, LayoutDashboard, Moon, MoreHorizontal, PenLine, RefreshCw, RotateCcw, Send, Settings, Shield, Sun, UserRoundCog, Users } from 'lucide-react';
+import { AlertCircle, BarChart2, Check, ChevronDown, Database, Inbox, LayoutDashboard, Moon, MoreHorizontal, PenLine, RefreshCw, RotateCcw, Send, Settings, Shield, Sun, UserRoundCog, Users } from 'lucide-react';
 import { STORAGE_KEYS } from '../lib/constants';
 import { cls } from '../lib/format';
 import { getLocaleShortLabel, getRuntimeLocale, localeText, toggleLocale, type AppLocale } from '../lib/locale';
@@ -42,32 +42,17 @@ function getMobileNavSlotIndex(menu: MenuKey): number {
   return primaryIndex >= 0 ? primaryIndex : mobilePrimaryItems.length;
 }
 
-const adminAvatarPresets = [
-  { id: 'aurora', src: 'https://img.loven7.com/file/img/IRup4u1h.webp', labelZh: '蓝发男工程师', labelEn: 'Blue male engineer' },
-  { id: 'mint', src: 'https://img.loven7.com/file/img/AuYlfVVC.webp', labelZh: '绿衣男管理员', labelEn: 'Sage male admin' },
-  { id: 'coral', src: 'https://img.loven7.com/file/img/UtZxQsag.webp', labelZh: '珊瑚女指挥官', labelEn: 'Coral female lead' },
-  { id: 'plum', src: 'https://img.loven7.com/file/img/P1oQEWCG.webp', labelZh: '紫发女设计师', labelEn: 'Plum female designer' },
-  { id: 'skyline', src: 'https://img.loven7.com/file/img/8wVBfPFn.webp', labelZh: '银发男分析师', labelEn: 'Silver male analyst' },
-] as const;
+type AdminAvatarChoice = 'default' | 'custom';
 
-type AdminAvatarPresetId = (typeof adminAvatarPresets)[number]['id'];
-type AdminAvatarChoice = AdminAvatarPresetId | 'custom';
-
-const DEFAULT_ADMIN_AVATAR: AdminAvatarPresetId = 'aurora';
-const AVATAR_IMAGE_HOST_ORIGIN = 'https://img.loven7.com';
-const AVATAR_IMAGE_HOSTNAME = 'img.loven7.com';
+const DEFAULT_ADMIN_AVATAR: AdminAvatarChoice = 'default';
 const PROFILE_NAME_MAX_LENGTH = 24;
-
-function isAdminAvatarPresetId(value: string | null): value is AdminAvatarPresetId {
-  return adminAvatarPresets.some((preset) => preset.id === value);
-}
 
 function readStoredAvatarChoice(): AdminAvatarChoice {
   if (typeof window === 'undefined') return DEFAULT_ADMIN_AVATAR;
   try {
     const stored = window.localStorage.getItem(STORAGE_KEYS.adminAvatarPreset);
     if (stored === 'custom') return 'custom';
-    return isAdminAvatarPresetId(stored) ? stored : DEFAULT_ADMIN_AVATAR;
+    return DEFAULT_ADMIN_AVATAR;
   } catch {
     return DEFAULT_ADMIN_AVATAR;
   }
@@ -84,7 +69,7 @@ function normalizeAvatarUrl(value: string) {
   if (!candidate) return '';
   try {
     const parsed = new URL(candidate);
-    if (parsed.protocol !== 'https:' || parsed.hostname !== AVATAR_IMAGE_HOSTNAME) return '';
+    if (parsed.protocol !== 'https:') return '';
     return parsed.href;
   } catch {
     return '';
@@ -216,9 +201,7 @@ export function Sidebar({ activeMenu, setActiveMenu, stats, theme, setTheme, loc
   const [profileName, setProfileName] = useState(() => readStoredProfileName());
   const [profileNameDraft, setProfileNameDraft] = useState(() => readStoredProfileName());
   const [avatarNotice, setAvatarNotice] = useState('');
-  const selectedPreset = adminAvatarPresets.find((preset) => preset.id === avatarChoice) || adminAvatarPresets[0];
   const isCustomAvatarActive = avatarChoice === 'custom' && !!customAvatar;
-  const avatarSrc = isCustomAvatarActive ? customAvatar : selectedPreset.src;
   const defaultProfileName = locale === 'en-US' ? 'Admin' : '管理员';
   const displayProfileName = profileName || defaultProfileName;
 
@@ -252,7 +235,7 @@ export function Sidebar({ activeMenu, setActiveMenu, stats, theme, setTheme, loc
   const applyAvatarUrl = () => {
     const normalized = normalizeAvatarUrl(avatarUrlDraft);
     if (!normalized) {
-      setAvatarNotice(locale === 'en-US' ? 'Use an img.loven7.com HTTPS link' : '请填写 img.loven7.com 的 HTTPS 图床链接');
+      setAvatarNotice(locale === 'en-US' ? 'Use a valid HTTPS image URL' : '请填写有效的 HTTPS 图片链接');
       return;
     }
     setCustomAvatar(normalized);
@@ -261,10 +244,6 @@ export function Sidebar({ activeMenu, setActiveMenu, stats, theme, setTheme, loc
     setAvatarChoice('custom');
     persistAvatarChoice('custom');
     setAvatarNotice(locale === 'en-US' ? 'Image-host avatar applied' : '图床头像已应用');
-  };
-
-  const openImageHost = () => {
-    window.open(AVATAR_IMAGE_HOST_ORIGIN, '_blank', 'noopener,noreferrer');
   };
 
   const applyProfileName = () => {
@@ -289,9 +268,8 @@ export function Sidebar({ activeMenu, setActiveMenu, stats, theme, setTheme, loc
         <button onClick={() => setActiveMenu('compose')} className="sidebar-compose-btn mb-4 flex w-full items-center justify-center gap-2 rounded-2xl py-3.5 font-medium transition"><PenLine size={18} /> {locale === 'en-US' ? 'Compose' : '写邮件'}</button>
         <div ref={profileCardRef} className="admin-profile-card rounded-2xl bg-white p-3 shadow-sm">
           <button type="button" className={cls('admin-profile-row flex items-center gap-3', avatarPickerOpen && 'is-open')} onClick={() => setAvatarPickerOpen((current) => !current)} aria-haspopup="dialog" aria-expanded={avatarPickerOpen}>
-            <span className={cls('admin-profile-avatar flex h-10 w-10 items-center justify-center rounded-full font-semibold', !isCustomAvatarActive && 'admin-profile-avatar-preset')}>
-              <img src={avatarSrc} alt="" draggable={false} />
-              <span className="sr-only">{profileInitial}</span>
+            <span className={cls('admin-profile-avatar flex h-10 w-10 items-center justify-center rounded-full font-semibold', !isCustomAvatarActive && 'admin-profile-avatar-default')}>
+              {isCustomAvatarActive ? <img src={customAvatar} alt="" draggable={false} /> : <span aria-hidden="true">{profileInitial}</span>}
             </span>
             <span className="admin-profile-main min-w-0">
               <span className="admin-profile-name text-sm font-medium text-slate-800">{displayProfileName}</span>
@@ -303,7 +281,7 @@ export function Sidebar({ activeMenu, setActiveMenu, stats, theme, setTheme, loc
             <div className="admin-avatar-popover" role="dialog" aria-label={locale === 'en-US' ? 'Choose avatar' : '选择头像'}>
               <div className="admin-avatar-popover-head">
                 <span>{locale === 'en-US' ? 'Avatar' : '头像'}</span>
-                <small>{locale === 'en-US' ? 'Presets or image-host link' : '预设或图床链接'}</small>
+                <small>{locale === 'en-US' ? 'Use your own HTTPS image link' : '填写自己的 HTTPS 图床链接'}</small>
               </div>
               <label className="admin-profile-name-block" htmlFor="admin-profile-name">
                 <span>{locale === 'en-US' ? 'Display name' : '显示名称'}</span>
@@ -326,31 +304,22 @@ export function Sidebar({ activeMenu, setActiveMenu, stats, theme, setTheme, loc
                   <button type="button" className="admin-profile-name-apply" onClick={applyProfileName}><Check size={14} />{locale === 'en-US' ? 'Save' : '保存'}</button>
                 </span>
               </label>
-              <div className="admin-avatar-grid">
-                {adminAvatarPresets.map((preset) => {
-                  const active = avatarChoice !== 'custom' && avatarChoice === preset.id;
-                  return (
-                    <button key={preset.id} type="button" className={cls('admin-avatar-option admin-avatar-preset-option', active && 'active')} title={locale === 'en-US' ? preset.labelEn : preset.labelZh} aria-label={locale === 'en-US' ? preset.labelEn : preset.labelZh} onClick={() => chooseAvatar(preset.id)}>
-                      <img src={preset.src} alt="" draggable={false} />
-                      {active && <span className="admin-avatar-check"><Check size={10} /></span>}
-                    </button>
-                  );
-                })}
-                {customAvatar && (
+              {customAvatar && (
+                <div className="admin-avatar-grid">
                   <button type="button" className={cls('admin-avatar-option admin-avatar-custom-option', avatarChoice === 'custom' && 'active')} title={locale === 'en-US' ? 'Custom avatar' : '自定义头像'} aria-label={locale === 'en-US' ? 'Custom avatar' : '自定义头像'} onClick={() => chooseAvatar('custom')}>
                     <img src={customAvatar} alt="" draggable={false} />
                     {avatarChoice === 'custom' && <span className="admin-avatar-check"><Check size={10} /></span>}
                   </button>
-                )}
-              </div>
+                </div>
+              )}
               <label className="admin-avatar-url-block" htmlFor="admin-avatar-url">
-                <span>{locale === 'en-US' ? 'Image-host link' : '图床链接'}</span>
+                <span>{locale === 'en-US' ? 'Avatar image URL' : '头像图片链接'}</span>
                 <span className="admin-avatar-url-row">
                   <input
                     id="admin-avatar-url"
                     className="admin-avatar-url-input"
                     value={avatarUrlDraft}
-                    placeholder={`${AVATAR_IMAGE_HOST_ORIGIN}/file/...`}
+                    placeholder="https://your-image-host.example/avatar.webp"
                     spellCheck={false}
                     onChange={(event) => setAvatarUrlDraft(event.target.value)}
                     onKeyDown={(event) => {
@@ -364,7 +333,6 @@ export function Sidebar({ activeMenu, setActiveMenu, stats, theme, setTheme, loc
                 </span>
               </label>
               <div className="admin-avatar-actions">
-                <button type="button" className="admin-avatar-action" onClick={openImageHost}><ExternalLink size={15} />{locale === 'en-US' ? 'Image host' : '图床'}</button>
                 <button type="button" className="admin-avatar-action" onClick={resetAvatar}><RotateCcw size={15} />{locale === 'en-US' ? 'Reset' : '默认'}</button>
               </div>
               {avatarNotice && <p className="admin-avatar-notice">{avatarNotice}</p>}
