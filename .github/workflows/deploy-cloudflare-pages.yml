@@ -35,6 +35,7 @@ jobs:
       CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
       ADMIN_PAGES_PROJECT_NAME: ${{ vars.ADMIN_PAGES_PROJECT_NAME }}
       WEBMAIL_PAGES_PROJECT_NAME: ${{ vars.WEBMAIL_PAGES_PROJECT_NAME }}
+      WEBMAIL_RUNTIME_URL: ${{ vars.WEBMAIL_RUNTIME_URL }}
       DEPLOY_ADMIN: ${{ github.event_name == 'push' || inputs.deploy_admin }}
       DEPLOY_WEBMAIL: ${{ github.event_name == 'push' || inputs.deploy_webmail }}
 
@@ -50,6 +51,21 @@ jobs:
           cache-dependency-path: |
             apps/admin/package-lock.json
             apps/webmail/package-lock.json
+
+      - name: Validate Cloudflare deploy configuration
+        if: github.repository == 'Lur1N77777/loven7-mail-cloudflare-suite' && github.ref == 'refs/heads/main' && (env.DEPLOY_ADMIN == 'true' || env.DEPLOY_WEBMAIL == 'true')
+        run: |
+          missing=()
+          if [ -z "$CLOUDFLARE_API_TOKEN" ]; then missing+=("CLOUDFLARE_API_TOKEN secret"); fi
+          if [ -z "$CLOUDFLARE_ACCOUNT_ID" ]; then missing+=("CLOUDFLARE_ACCOUNT_ID secret"); fi
+          if [ "$DEPLOY_ADMIN" = "true" ] && [ -z "$ADMIN_PAGES_PROJECT_NAME" ]; then missing+=("ADMIN_PAGES_PROJECT_NAME variable"); fi
+          if [ "$DEPLOY_WEBMAIL" = "true" ] && [ -z "$WEBMAIL_PAGES_PROJECT_NAME" ]; then missing+=("WEBMAIL_PAGES_PROJECT_NAME variable"); fi
+          if [ ${#missing[@]} -gt 0 ]; then
+            printf 'Cloudflare production deploy is required for this repository, but these settings are missing:\n'
+            printf ' - %s\n' "${missing[@]}"
+            printf 'Configure them in GitHub Settings -> Secrets and variables -> Actions, then rerun this workflow.\n'
+            exit 1
+          fi
 
       - name: Install admin dependencies
         if: env.DEPLOY_ADMIN == 'true'
@@ -97,6 +113,10 @@ jobs:
         if: env.DEPLOY_WEBMAIL == 'true' && env.CLOUDFLARE_API_TOKEN != '' && env.CLOUDFLARE_ACCOUNT_ID != '' && env.WEBMAIL_PAGES_PROJECT_NAME != ''
         working-directory: apps/webmail
         run: node scripts/deploy-pages.mjs
+
+      - name: Probe deployed webmail runtime
+        if: env.DEPLOY_WEBMAIL == 'true' && env.CLOUDFLARE_API_TOKEN != '' && env.CLOUDFLARE_ACCOUNT_ID != '' && env.WEBMAIL_PAGES_PROJECT_NAME != '' && env.WEBMAIL_RUNTIME_URL != ''
+        run: npm run check:cloudflare:runtime
 
       - name: Skip webmail deploy when Cloudflare config is missing
         if: env.DEPLOY_WEBMAIL == 'true' && (env.CLOUDFLARE_API_TOKEN == '' || env.CLOUDFLARE_ACCOUNT_ID == '' || env.WEBMAIL_PAGES_PROJECT_NAME == '')

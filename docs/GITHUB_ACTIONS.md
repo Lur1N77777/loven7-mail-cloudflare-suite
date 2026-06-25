@@ -2,10 +2,18 @@
 
 本仓库已经包含两条 GitHub Actions workflow：
 
-| 文件 | 作用 |
-| --- | --- |
-| `.github/workflows/ci.yml` | PR、push 到 `main`、手动运行时自动构建检查 |
+| 文件                                            | 作用                                                            |
+| ----------------------------------------------- | --------------------------------------------------------------- |
+| `.github/workflows/ci.yml`                      | PR、push 到 `main`、手动运行时自动构建检查                      |
 | `.github/workflows/deploy-cloudflare-pages.yml` | push 到 `main` 或手动运行时构建，并在配置 Cloudflare 后自动部署 |
+
+当前生产项目名：
+
+| 站点            | GitHub variable              | 当前值                       |
+| --------------- | ---------------------------- | ---------------------------- |
+| 管理后台        | `ADMIN_PAGES_PROJECT_NAME`   | `loven7-mail-pwa`            |
+| 用户站 / 分享站 | `WEBMAIL_PAGES_PROJECT_NAME` | `cloudmail-webmail`          |
+| 用户站线上探针  | `WEBMAIL_RUNTIME_URL`        | `https://email.loven.qzz.io` |
 
 ## 1. 自动构建检查
 
@@ -35,10 +43,10 @@ apps/webmail  npm ci → npm run build
 
 先在 Cloudflare Pages 里准备两个项目：
 
-| 项目 | Root directory | Output directory |
-| --- | --- | --- |
-| 管理后台 | `apps/admin` | `dist` |
-| 用户站 / 分享站 | `apps/webmail` | `dist` |
+| 项目            | Root directory | Output directory |
+| --------------- | -------------- | ---------------- |
+| 管理后台        | `apps/admin`   | `dist`           |
+| 用户站 / 分享站 | `apps/webmail` | `dist`           |
 
 然后打开 GitHub 仓库：
 
@@ -48,19 +56,21 @@ Settings → Secrets and variables → Actions
 
 添加两个 **Repository secrets**：
 
-| Secret | 说明 |
-| --- | --- |
-| `CLOUDFLARE_API_TOKEN` | Cloudflare API Token，至少需要 Pages 部署权限 |
-| `CLOUDFLARE_ACCOUNT_ID` | Cloudflare Account ID |
+| Secret                  | 说明                                          |
+| ----------------------- | --------------------------------------------- |
+| `CLOUDFLARE_API_TOKEN`  | Cloudflare API Token，至少需要 Pages 部署权限 |
+| `CLOUDFLARE_ACCOUNT_ID` | Cloudflare Account ID                         |
 
 添加两个 **Repository variables**：
 
-| Variable | 示例 | 说明 |
-| --- | --- | --- |
-| `ADMIN_PAGES_PROJECT_NAME` | `loven7-mail-admin` | 管理后台 Pages 项目名 |
-| `WEBMAIL_PAGES_PROJECT_NAME` | `loven7-mail-webmail` | 用户站 Pages 项目名 |
+| Variable                     | 示例                         | 说明                                               |
+| ---------------------------- | ---------------------------- | -------------------------------------------------- |
+| `ADMIN_PAGES_PROJECT_NAME`   | `loven7-mail-pwa`            | 管理后台 Pages 项目名                              |
+| `WEBMAIL_PAGES_PROJECT_NAME` | `cloudmail-webmail`          | 用户站 Pages 项目名                                |
+| `WEBMAIL_RUNTIME_URL`        | `https://email.loven.qzz.io` | 用户站生产域名，用于部署后运行 `/api/runtime` 探针 |
+| `VITE_FRONTEND_LOGIN_BASE`   | `https://email.loven.qzz.io` | 管理后台构建时使用的用户站登录链接前缀             |
 
-保存后，每次 push 到 `main` 都会自动构建并部署两个 Pages 项目。
+保存后，每次 push 到 `main` 都会自动构建并部署两个 Pages 项目。当前正式仓库会在部署前校验这些设置；如果选择部署但缺少 Cloudflare secret 或项目名变量，workflow 会失败，避免出现“构建成功但没有上线”的绿色假象。
 
 ## 4. 手动触发部署
 
@@ -80,21 +90,33 @@ Actions → Deploy to Cloudflare Pages → Run workflow
 
 GitHub Actions 只负责构建和上传代码。用户站这些运行时配置仍建议在 Cloudflare Pages 项目设置里管理：
 
-| 名称 | 类型 | 说明 |
-| --- | --- | --- |
-| `MAIL_WORKER_BASE_URL` | Environment variable | 你的 Cloudflare Temp Mail Worker/API 地址 |
-| `SITE_PASSWORD` | Environment variable | 如果上游 Worker 开启站点密码才需要 |
-| `SHARE_ENCRYPTION_SECRET` | Environment variable | 分享功能加密密钥，建议 32 字符以上随机字符串 |
-| `SHARE_ADMIN_CORS_ORIGINS` | Environment variable | 后台与用户站分开部署时必填，填写管理后台页面 origin，例如 `https://your-admin.pages.dev` |
-| `SHARE_PUBLIC_CORS_ORIGINS` | Environment variable | 可选，公开分享 API 额外跨源来源；默认留空，只允许同源分享页 |
-| `SHARE_KV` | KV binding | 分享链接、撤回状态、仅新增邮件和隐藏邮件记录 |
+| 名称                        | 类型                 | 说明                                                                                     |
+| --------------------------- | -------------------- | ---------------------------------------------------------------------------------------- |
+| `MAIL_WORKER_BASE_URL`      | Environment variable | 你的 Cloudflare Temp Mail Worker/API 地址                                                |
+| `SITE_PASSWORD`             | Environment variable | 如果上游 Worker 开启站点密码才需要                                                       |
+| `SHARE_ENCRYPTION_SECRET`   | Environment variable | 分享功能加密密钥，建议 32 字符以上随机字符串                                             |
+| `SHARE_ADMIN_CORS_ORIGINS`  | Environment variable | 后台与用户站分开部署时必填，填写管理后台页面 origin，例如 `https://your-admin.pages.dev` |
+| `SHARE_PUBLIC_CORS_ORIGINS` | Environment variable | 可选，公开分享 API 额外跨源来源；默认留空，只允许同源分享页                              |
+| `SHARE_KV`                  | KV binding           | 分享链接、撤回状态、仅新增邮件和隐藏邮件记录                                             |
 
 这样做的好处是：仓库不会保存 API、密码、Token、KV ID 或个人域名。
 
 > 注意：`SHARE_ADMIN_CORS_ORIGINS` 配在**用户站 Pages 项目**上，值是“管理后台页面所在 origin”，不是用户站地址。不要设置为 `*`。
 
-## 6. 如果没有配置 Cloudflare 密钥会怎样
+## 6. 部署后自动检查用户站运行时
 
-`Deploy to Cloudflare Pages` 仍会构建项目，但会跳过部署步骤，并在日志里提示缺少哪些配置。
+如果设置了 `WEBMAIL_RUNTIME_URL`，用户站部署完成后 workflow 会运行：
 
-这适合开源仓库：别人可以先验证构建，通过后再决定是否配置自己的 Cloudflare 自动部署。
+```bash
+npm run check:cloudflare:runtime
+```
+
+它会检查页面 HTML、`/api/runtime`、分享 KV、分享加密密钥、上游 Worker 基本连通性和假登录错误映射。探针不会输出任何 secret 原文。
+
+## 7. 如果没有配置 Cloudflare 密钥会怎样
+
+在正式仓库 `Lur1N77777/loven7-mail-cloudflare-suite` 的 `main` 分支上，只要 workflow 选择部署，缺少 Cloudflare 部署配置就会失败。
+
+其他 fork 或复用仓库可以继续先跑构建检查，再按自己的 Cloudflare 项目补齐 secrets 和 variables。
+
+完整生产运维流程见 [`OPERATIONS_RUNBOOK.md`](OPERATIONS_RUNBOOK.md)。
