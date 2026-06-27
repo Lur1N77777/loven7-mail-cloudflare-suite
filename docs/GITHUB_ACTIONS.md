@@ -1,11 +1,12 @@
 # GitHub Actions 自动构建与自动部署
 
-本仓库已经包含两条 GitHub Actions workflow：
+本仓库已经包含三条 GitHub Actions workflow：
 
 | 文件                                            | 作用                                                            |
 | ----------------------------------------------- | --------------------------------------------------------------- |
 | `.github/workflows/ci.yml`                      | PR、push 到 `main`、手动运行时自动构建检查                      |
 | `.github/workflows/deploy-cloudflare-pages.yml` | push 到 `main` 或手动运行时构建，并在配置 Cloudflare 后自动部署 |
+| `.github/workflows/release-assets.yml`          | push `v*` tag 或手动运行时创建/更新 Release 源码压缩包          |
 
 当前生产项目名：
 
@@ -118,5 +119,15 @@ npm run check:cloudflare:runtime
 在正式仓库 `Lur1N77777/loven7-mail-cloudflare-suite` 的 `main` 分支上，只要 workflow 选择部署，缺少 Cloudflare 部署配置就会失败。
 
 其他 fork 或复用仓库可以继续先跑构建检查，再按自己的 Cloudflare 项目补齐 secrets 和 variables。
+
+## 8. Release 资产同步
+
+推送 `v*` tag 后，`Release Assets` 会自动生成当前 tag 对应的源码压缩包和 `SHA256SUMS.txt`，并同步到同名 GitHub Release。Release 已存在时只覆盖上传资产，不改已有发布说明；Release 不存在时会自动创建基础说明。
+
+也可以在 GitHub 手动运行：
+
+```text
+Actions → Release Assets → Run workflow → tag=v0.1.0
+```
 
 完整生产运维流程见 [`OPERATIONS_RUNBOOK.md`](OPERATIONS_RUNBOOK.md)。

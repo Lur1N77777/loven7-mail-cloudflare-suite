@@ -87,6 +87,7 @@
 | `.codex-dev-logs/`                                      | 本地调试日志和整理归档  |
 | `_backup_*.json` / `_backup_*.log`                      | 本地备份摘要和日志      |
 | `qa-shots/` / `tmp/`                                    | 临时验证材料            |
+| `apps/admin/*.png`                                      | 后台根目录 UI 验证截图  |
 
 如果需要保留一次性的诊断输出，放进 `.codex-dev-logs/`；如果需要提交长期说明，把它整理成 `docs/` 下的文档。
 
