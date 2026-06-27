@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { AlertCircle, BarChart2, Check, ChevronDown, Database, Inbox, LayoutDashboard, Moon, MoreHorizontal, PenLine, RefreshCw, RotateCcw, Send, Settings, Sun, UserRoundCog, Users } from 'lucide-react';
+import { AlertCircle, BarChart2, Check, ChevronDown, Database, Github, Inbox, LayoutDashboard, Moon, MoreHorizontal, PenLine, RefreshCw, RotateCcw, Send, Settings, Sun, UserRoundCog, Users } from 'lucide-react';
 import { STORAGE_KEYS } from '../lib/constants';
 import { cls } from '../lib/format';
 import { getLocaleShortLabel, getRuntimeLocale, localeText, toggleLocale, type AppLocale } from '../lib/locale';
@@ -34,6 +34,7 @@ export const mobilePrimaryMenus: MenuKey[] = ['stats', 'address', 'inbox', 'sent
 export const mobileSwipeMenus: MenuKey[] = [...mobilePrimaryMenus, 'dashboard'];
 const mobileMoreItems = flatMenuItems.filter((item) => !mobilePrimaryMenus.includes(item.key));
 const mobileNavSlotCount = mobilePrimaryMenus.length + 1;
+const OFFICIAL_GITHUB_URL = 'https://github.com/Lur1N77777/loven7-mail-cloudflare-suite';
 
 const adminAvatarPresets = [
   { id: 'aurora', src: 'https://img.loven7.com/file/img/IRup4u1h.webp', labelZh: '蓝发男工程师', labelEn: 'Blue male engineer' },
@@ -408,6 +409,10 @@ export function Sidebar({ activeMenu, setActiveMenu, stats, theme, setTheme, loc
           <div className="sidebar-reference-tools">
             <button onClick={refresh} className="sidebar-mini-btn sidebar-tool-btn" title={locale === 'en-US' ? 'Refresh' : '刷新'} aria-label={locale === 'en-US' ? 'Refresh' : '刷新'}><RefreshCw size={15} /><span>{locale === 'en-US' ? 'Refresh' : '刷新'}</span></button>
             {showSettingsShortcut ? <button onClick={() => setActiveMenu('settings')} className="sidebar-mini-btn sidebar-tool-btn" title={locale === 'en-US' ? 'Settings' : '系统设置'} aria-label={locale === 'en-US' ? 'Settings' : '系统设置'}><Settings size={15} /><span>{locale === 'en-US' ? 'Settings' : '设置'}</span></button> : null}
+            <a className="sidebar-mini-btn sidebar-tool-btn sidebar-github-link" href={OFFICIAL_GITHUB_URL} target="_blank" rel="noreferrer" title={locale === 'en-US' ? 'Official GitHub repository' : '官方 GitHub 仓库'} aria-label={locale === 'en-US' ? 'Open official GitHub repository' : '打开官方 GitHub 仓库'}>
+              <Github size={15} />
+              <span>GitHub</span>
+            </a>
             {children}
           </div>
           <div className="theme-segmented-control sidebar-theme-control"><button onClick={() => setTheme('light')} className={cls('theme-segmented-option', theme === 'light' && 'active')} title={locale === 'en-US' ? 'Light mode' : '浅色模式'} aria-label={locale === 'en-US' ? 'Light mode' : '浅色模式'}><Sun size={15} /><span>{locale === 'en-US' ? 'Light' : '浅色'}</span></button><button onClick={() => setTheme('dark')} className={cls('theme-segmented-option', theme === 'dark' && 'active')} title={locale === 'en-US' ? 'Dark mode' : '深色模式'} aria-label={locale === 'en-US' ? 'Dark mode' : '深色模式'}><Moon size={15} /><span>{locale === 'en-US' ? 'Dark' : '深色'}</span></button></div>
@@ -529,6 +534,10 @@ export function MobileNav({ activeMenu, visualActiveMenu, setActiveMenu, locale,
               </button>
             );
           })}
+          <a className="mobile-more-item mobile-more-github-link" href={OFFICIAL_GITHUB_URL} target="_blank" rel="noreferrer" role="menuitem" aria-label={locale === 'en-US' ? 'Open official GitHub repository' : '打开官方 GitHub 仓库'}>
+            <Github size={17} />
+            <span>GitHub</span>
+          </a>
         </div>
       )}
     </nav>
